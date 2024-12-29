@@ -20,13 +20,13 @@ export default function Map() {
   const [max, setMax] = useState<number>(20);
   const [selectedCountries, setSelectedCountries] = useState<
     {
-      name: string;
+      name?: string;
       tries: number;
     }[]
   >([]);
   const currentCountry: {
     name: string;
-    flag: string;
+    flag?: string;
   } | null = useMemo(() => {
     // Filter the countries that are not in selectedCountries
     const availableCountries = countryNames.filter(

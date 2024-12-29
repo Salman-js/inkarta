@@ -29,14 +29,14 @@ export const NewGameDialog: React.FC<dialogProps> = ({
         </DialogHeader>
         <div className='w-full flex flex-row justify-start items-center'>
           <div className='w-[80%]'>
-            <Label htmlFor='name' className='text-right'>
-              Max.
+            <Label htmlFor='name' className='text-right mb-2'>
+              Countries per Game
             </Label>
             <Slider
               max={50}
               step={1}
               value={[max]}
-              className='w-full'
+              className='w-full pt-2'
               onValueChange={(values) => setMax(values[0])}
             />
           </div>
