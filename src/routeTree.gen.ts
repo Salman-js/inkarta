@@ -17,6 +17,13 @@ import { Route as rootRoute } from './routes/__root'
 // Create Virtual Routes
 
 const IndexLazyImport = createFileRoute('/')()
+const MapWorldIndexLazyImport = createFileRoute('/map/world/')()
+const MapSouthAmericaIndexLazyImport = createFileRoute('/map/south-america/')()
+const MapOceaniaIndexLazyImport = createFileRoute('/map/oceania/')()
+const MapNorthAmericaIndexLazyImport = createFileRoute('/map/north-america/')()
+const MapEuropeIndexLazyImport = createFileRoute('/map/europe/')()
+const MapAsiaIndexLazyImport = createFileRoute('/map/asia/')()
+const MapAfricaIndexLazyImport = createFileRoute('/map/africa/')()
 
 // Create/Update Routes
 
@@ -25,6 +32,62 @@ const IndexLazyRoute = IndexLazyImport.update({
   path: '/',
   getParentRoute: () => rootRoute,
 } as any).lazy(() => import('./routes/index.lazy').then((d) => d.Route))
+
+const MapWorldIndexLazyRoute = MapWorldIndexLazyImport.update({
+  id: '/map/world/',
+  path: '/map/world/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/world/index.lazy').then((d) => d.Route),
+)
+
+const MapSouthAmericaIndexLazyRoute = MapSouthAmericaIndexLazyImport.update({
+  id: '/map/south-america/',
+  path: '/map/south-america/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/south-america/index.lazy').then((d) => d.Route),
+)
+
+const MapOceaniaIndexLazyRoute = MapOceaniaIndexLazyImport.update({
+  id: '/map/oceania/',
+  path: '/map/oceania/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/oceania/index.lazy').then((d) => d.Route),
+)
+
+const MapNorthAmericaIndexLazyRoute = MapNorthAmericaIndexLazyImport.update({
+  id: '/map/north-america/',
+  path: '/map/north-america/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/north-america/index.lazy').then((d) => d.Route),
+)
+
+const MapEuropeIndexLazyRoute = MapEuropeIndexLazyImport.update({
+  id: '/map/europe/',
+  path: '/map/europe/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/europe/index.lazy').then((d) => d.Route),
+)
+
+const MapAsiaIndexLazyRoute = MapAsiaIndexLazyImport.update({
+  id: '/map/asia/',
+  path: '/map/asia/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/asia/index.lazy').then((d) => d.Route),
+)
+
+const MapAfricaIndexLazyRoute = MapAfricaIndexLazyImport.update({
+  id: '/map/africa/',
+  path: '/map/africa/',
+  getParentRoute: () => rootRoute,
+} as any).lazy(() =>
+  import('./routes/map/africa/index.lazy').then((d) => d.Route),
+)
 
 // Populate the FileRoutesByPath interface
 
@@ -37,6 +100,55 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexLazyImport
       parentRoute: typeof rootRoute
     }
+    '/map/africa/': {
+      id: '/map/africa/'
+      path: '/map/africa'
+      fullPath: '/map/africa'
+      preLoaderRoute: typeof MapAfricaIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/map/asia/': {
+      id: '/map/asia/'
+      path: '/map/asia'
+      fullPath: '/map/asia'
+      preLoaderRoute: typeof MapAsiaIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/map/europe/': {
+      id: '/map/europe/'
+      path: '/map/europe'
+      fullPath: '/map/europe'
+      preLoaderRoute: typeof MapEuropeIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/map/north-america/': {
+      id: '/map/north-america/'
+      path: '/map/north-america'
+      fullPath: '/map/north-america'
+      preLoaderRoute: typeof MapNorthAmericaIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/map/oceania/': {
+      id: '/map/oceania/'
+      path: '/map/oceania'
+      fullPath: '/map/oceania'
+      preLoaderRoute: typeof MapOceaniaIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/map/south-america/': {
+      id: '/map/south-america/'
+      path: '/map/south-america'
+      fullPath: '/map/south-america'
+      preLoaderRoute: typeof MapSouthAmericaIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
+    '/map/world/': {
+      id: '/map/world/'
+      path: '/map/world'
+      fullPath: '/map/world'
+      preLoaderRoute: typeof MapWorldIndexLazyImport
+      parentRoute: typeof rootRoute
+    }
   }
 }
 
@@ -44,32 +156,92 @@ declare module '@tanstack/react-router' {
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
+  '/map/africa': typeof MapAfricaIndexLazyRoute
+  '/map/asia': typeof MapAsiaIndexLazyRoute
+  '/map/europe': typeof MapEuropeIndexLazyRoute
+  '/map/north-america': typeof MapNorthAmericaIndexLazyRoute
+  '/map/oceania': typeof MapOceaniaIndexLazyRoute
+  '/map/south-america': typeof MapSouthAmericaIndexLazyRoute
+  '/map/world': typeof MapWorldIndexLazyRoute
 }
 
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/map/africa': typeof MapAfricaIndexLazyRoute
+  '/map/asia': typeof MapAsiaIndexLazyRoute
+  '/map/europe': typeof MapEuropeIndexLazyRoute
+  '/map/north-america': typeof MapNorthAmericaIndexLazyRoute
+  '/map/oceania': typeof MapOceaniaIndexLazyRoute
+  '/map/south-america': typeof MapSouthAmericaIndexLazyRoute
+  '/map/world': typeof MapWorldIndexLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/': typeof IndexLazyRoute
+  '/map/africa/': typeof MapAfricaIndexLazyRoute
+  '/map/asia/': typeof MapAsiaIndexLazyRoute
+  '/map/europe/': typeof MapEuropeIndexLazyRoute
+  '/map/north-america/': typeof MapNorthAmericaIndexLazyRoute
+  '/map/oceania/': typeof MapOceaniaIndexLazyRoute
+  '/map/south-america/': typeof MapSouthAmericaIndexLazyRoute
+  '/map/world/': typeof MapWorldIndexLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | '/'
+    | '/map/africa'
+    | '/map/asia'
+    | '/map/europe'
+    | '/map/north-america'
+    | '/map/oceania'
+    | '/map/south-america'
+    | '/map/world'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/'
+    | '/map/africa'
+    | '/map/asia'
+    | '/map/europe'
+    | '/map/north-america'
+    | '/map/oceania'
+    | '/map/south-america'
+    | '/map/world'
+  id:
+    | '__root__'
+    | '/'
+    | '/map/africa/'
+    | '/map/asia/'
+    | '/map/europe/'
+    | '/map/north-america/'
+    | '/map/oceania/'
+    | '/map/south-america/'
+    | '/map/world/'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   IndexLazyRoute: typeof IndexLazyRoute
+  MapAfricaIndexLazyRoute: typeof MapAfricaIndexLazyRoute
+  MapAsiaIndexLazyRoute: typeof MapAsiaIndexLazyRoute
+  MapEuropeIndexLazyRoute: typeof MapEuropeIndexLazyRoute
+  MapNorthAmericaIndexLazyRoute: typeof MapNorthAmericaIndexLazyRoute
+  MapOceaniaIndexLazyRoute: typeof MapOceaniaIndexLazyRoute
+  MapSouthAmericaIndexLazyRoute: typeof MapSouthAmericaIndexLazyRoute
+  MapWorldIndexLazyRoute: typeof MapWorldIndexLazyRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexLazyRoute: IndexLazyRoute,
+  MapAfricaIndexLazyRoute: MapAfricaIndexLazyRoute,
+  MapAsiaIndexLazyRoute: MapAsiaIndexLazyRoute,
+  MapEuropeIndexLazyRoute: MapEuropeIndexLazyRoute,
+  MapNorthAmericaIndexLazyRoute: MapNorthAmericaIndexLazyRoute,
+  MapOceaniaIndexLazyRoute: MapOceaniaIndexLazyRoute,
+  MapSouthAmericaIndexLazyRoute: MapSouthAmericaIndexLazyRoute,
+  MapWorldIndexLazyRoute: MapWorldIndexLazyRoute,
 }
 
 export const routeTree = rootRoute
@@ -82,11 +254,39 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/",
+        "/map/africa/",
+        "/map/asia/",
+        "/map/europe/",
+        "/map/north-america/",
+        "/map/oceania/",
+        "/map/south-america/",
+        "/map/world/"
       ]
     },
     "/": {
       "filePath": "index.lazy.tsx"
+    },
+    "/map/africa/": {
+      "filePath": "map/africa/index.lazy.tsx"
+    },
+    "/map/asia/": {
+      "filePath": "map/asia/index.lazy.tsx"
+    },
+    "/map/europe/": {
+      "filePath": "map/europe/index.lazy.tsx"
+    },
+    "/map/north-america/": {
+      "filePath": "map/north-america/index.lazy.tsx"
+    },
+    "/map/oceania/": {
+      "filePath": "map/oceania/index.lazy.tsx"
+    },
+    "/map/south-america/": {
+      "filePath": "map/south-america/index.lazy.tsx"
+    },
+    "/map/world/": {
+      "filePath": "map/world/index.lazy.tsx"
     }
   }
 }

@@ -1,11 +1,7 @@
-import { TanStackRouterDevtools } from '@/components/ui/TanStackRouterDevtools';
+import PageNotFound from '@/components/common/PageNotFound';
 import { createRootRoute, Outlet } from '@tanstack/react-router';
 
 export const Route = createRootRoute({
-  component: () => (
-    <>
-      <Outlet />
-      <TanStackRouterDevtools />
-    </>
-  ),
+  component: () => <Outlet />,
+  notFoundComponent: () => <PageNotFound />,
 });

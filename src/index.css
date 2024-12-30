@@ -68,8 +68,19 @@
   @apply w-full h-screen;
 }
 .page-container {
-  @apply w-full h-screen flex justify-center items-center bg-[#a4d1dc];
+  @apply w-full flex justify-center items-center py-20;
+  background-image: url('/homeBg.svg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 .map-container {
-  @apply flex flex-col justify-center items-center bg-[#a4d1dc];
+  @apply flex flex-col justify-center items-center;
+}
+.not-found-container {
+  background-image: url('/notFoundBg.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
 }

@@ -6,15 +6,17 @@ import {
   Geography,
   ZoomableGroup,
 } from 'react-simple-maps';
-import { NewGameDialog, ResultDialog } from '../factory/Dialog';
+import { NewGameDialog, ResultDialog } from '../../factory/Dialog';
 import { flags } from '@/lib/map/constants';
-import { Button } from '../ui/button';
-import { ChevronRight, RotateCcw } from 'lucide-react';
-import { ToolTip } from '../factory/Tooltip';
+import { Button } from '../../ui/button';
+import { ChevronRight, Home, RotateCcw } from 'lucide-react';
+import { ToolTip } from '../../factory/Tooltip';
 import confetti from 'canvas-confetti';
+import { Link } from '@tanstack/react-router';
+import NewGameNav from '@/components/common/NewGameNav';
 
 export default function Map() {
-  const [startTime, setStartTime] = useState<Date>();
+  const [startTime, setStartTime] = useState<Date | undefined>(new Date());
   const [currentTries, setCurrentTries] = useState<number>(0);
   const [resultOpen, setResultOpen] = useState(false);
   const [max, setMax] = useState<number>(20);
@@ -196,9 +198,21 @@ export default function Map() {
           Skip <ChevronRight />
         </Button>
       </div>
-      <div className='rounded-full fixed top-4 left-4 shadow-md bg-white flex flex-row justify-center items-center'>
+      <div className='rounded-full fixed top-4 left-4 shadow-md bg-white flex flex-row justify-center items-center px-2'>
+        <ToolTip content='Main Menu'>
+          <Link to='/'>
+            <Button variant='link' size='icon'>
+              <Home />
+            </Button>
+          </Link>
+        </ToolTip>
+        <NewGameNav />
         <ToolTip content='New Game'>
-          <Button variant='link' onClick={() => setStartTime(undefined)}>
+          <Button
+            variant='link'
+            onClick={() => setStartTime(undefined)}
+            size='icon'
+          >
             <RotateCcw />
           </Button>
         </ToolTip>

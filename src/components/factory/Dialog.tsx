@@ -25,7 +25,7 @@ export const NewGameDialog: React.FC<dialogProps> = ({
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className='sm:min-w-[425px]'>
         <DialogHeader>
-          <DialogTitle>New Game</DialogTitle>
+          <DialogTitle>Restart</DialogTitle>
         </DialogHeader>
         <div className='w-full flex flex-row justify-start items-center'>
           <div className='w-[80%]'>
