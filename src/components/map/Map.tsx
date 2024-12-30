@@ -90,9 +90,9 @@ export default function Map() {
   };
   const calculateAccuracy = useMemo(() => {
     const weightedCorrectAttempts = selectedCountries.reduce((acc, sc) => {
-      if (sc.tries === 1) return acc + 1; // Full point
-      if (sc.tries === 2) return acc + 0.75; // 75% point
-      if (sc.tries === 3) return acc + 0.5; // 50% point
+      if (sc.tries === 0) return acc + 1; // Full point
+      if (sc.tries === 1) return acc + 0.75; // 75% point
+      if (sc.tries === 2) return acc + 0.5; // 50% point
       return acc; // No points for tries > 2
     }, 0);
 
@@ -118,9 +118,9 @@ export default function Map() {
     <div className='h-full w-full flex flex-col justify-center items-center'>
       <ComposableMap
         projection='geoMercator'
-        className='flex self-center h-full w-full bg-[#a4d1dc]'
+        className='flex self-center h-screen border w-full bg-[#a4d1dc]'
       >
-        <ZoomableGroup center={[0, 0]} zoom={1}>
+        <ZoomableGroup center={[0, 0]} zoom={1} maxZoom={20}>
           <Geographies geography='/features.json'>
             {({ geographies }) =>
               geographies.map((geo) => {
@@ -181,7 +181,7 @@ export default function Map() {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-      <div className='p-4 rounded-md absolute top-4 right-4 shadow-md bg-white space-y-1 justify-center items-center'>
+      <div className='p-4 rounded-md fixed top-4 right-4 shadow-md bg-white space-y-1 justify-center items-center'>
         <img src={currentCountry?.flag} className='w-10 lg:w-40 mx-auto' />
         <div>
           <p className='lg:text-2xl text-base font-semibold text-center mb-3'>
@@ -196,7 +196,7 @@ export default function Map() {
           Skip <ChevronRight />
         </Button>
       </div>
-      <div className='rounded-full absolute top-4 left-4 shadow-md bg-white flex flex-row justify-center items-center'>
+      <div className='rounded-full fixed top-4 left-4 shadow-md bg-white flex flex-row justify-center items-center'>
         <ToolTip content='New Game'>
           <Button variant='link' onClick={() => setStartTime(undefined)}>
             <RotateCcw />
