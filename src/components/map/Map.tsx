@@ -97,7 +97,7 @@ export default function Map() {
     }, 0);
 
     const totalAttempts = selectedCountries.reduce(
-      (acc, sc) => acc + sc.tries,
+      (acc, sc) => acc + (sc.tries + 1),
       0
     );
 

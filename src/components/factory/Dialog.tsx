@@ -23,7 +23,7 @@ export const NewGameDialog: React.FC<dialogProps> = ({
 }) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:min-w-[425px]'>
         <DialogHeader>
           <DialogTitle>New Game</DialogTitle>
         </DialogHeader>
@@ -66,7 +66,7 @@ export const ResultDialog: React.FC<resultDialogProps> = ({
 }) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className='sm:max-w-[425px]'>
+      <DialogContent className='sm:min-w-[425px]'>
         <DialogHeader>
           <DialogTitle>Result</DialogTitle>
         </DialogHeader>
