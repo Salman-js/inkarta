@@ -9,7 +9,7 @@ export function useFetchCountryNameQuery<TData = any>(
     const data = await fetch(url);
     const jsonData = await data.json();
     const countryNames = jsonData.features.map(
-      (feature) => feature.properties.sovereignt
+      (feature) => feature.properties.admin
     );
     return countryNames;
   };
@@ -35,6 +35,7 @@ export type IMapJson = {
   features: {
     properties: {
       sovereignt: string;
+      admin: string;
       [x: string]: string | number;
     };
   }[];

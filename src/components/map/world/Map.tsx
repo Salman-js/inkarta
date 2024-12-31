@@ -13,6 +13,7 @@ import confetti from 'canvas-confetti';
 import { Link } from '@tanstack/react-router';
 import NewGameNav from '@/components/common/NewGameNav';
 import { useFetchCountryNames, useFetchFlags } from '@/hooks/query.hooks';
+import PageNotFound from '@/components/common/PageNotFound';
 type mapProps = {
   initMax?: number;
   center?: [number, number];
@@ -88,10 +89,13 @@ const Map: React.FC<mapProps> = ({
         setCurrentTries(0);
         const x = coordinates.x / window.innerWidth;
         const y = coordinates.y / window.innerHeight;
+        const particleCount = 75 - (tries + 1) * 15;
+        const ticks = 120 - (tries + 1) * 20;
+        const spread = 25 - (tries + 1) * 5;
         confetti({
-          particleCount: 50,
-          spread: 20,
-          ticks: 100,
+          particleCount,
+          spread,
+          ticks,
           origin: { y, x },
         });
       } else if (tries + 1 > 2) {
@@ -260,7 +264,9 @@ const Map: React.FC<mapProps> = ({
         }}
       />
     </div>
-  ) : null;
+  ) : (
+    <PageNotFound loadingMode />
+  );
 };
 
 export default Map;
