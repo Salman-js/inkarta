@@ -66,12 +66,14 @@ export const ResultDialog: React.FC<resultDialogProps> = ({
 }) => {
   return (
     <Dialog open={open} onOpenChange={onClose}>
-      <DialogContent className='sm:min-w-[425px]'>
+      <DialogContent className='min-w-[425px] max-w-fit'>
         <DialogHeader>
           <DialogTitle>Result</DialogTitle>
         </DialogHeader>
         <div className='flex items-center gap-4'>
-          <p className='text-[10em] font-bold text-center w-full'>{result}%</p>
+          <p className='text-[10em] font-bold text-center w-full'>
+            {result.toFixed(1)}%
+          </p>
         </div>
         <DialogFooter>
           <Button onClick={onClose}>Close</Button>
