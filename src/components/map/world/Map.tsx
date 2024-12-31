@@ -135,73 +135,99 @@ const Map: React.FC<mapProps> = ({
       setResultOpen(true);
     }
   }, [selectedCountries]);
-  return countryNames ? (
-    <div className='h-full w-full flex flex-col justify-center items-center'>
-      <ComposableMap
-        projection='geoMercator'
-        className='flex self-center h-screen border w-full bg-[#a4d1dc]'
-      >
-        <ZoomableGroup center={center} zoom={zoom} maxZoom={20} max={1}>
-          <Geographies geography={`/${geography}.json`}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const gotOnFirstTry = selectedCountries.some(
-                  (sc) => sc.name === geo.properties.name && sc.tries === 0
-                );
-                const gotOnSecondTry = selectedCountries.some(
-                  (sc) => sc.name === geo.properties.name && sc.tries === 1
-                );
-                const gotOnThirdTry = selectedCountries.some(
-                  (sc) => sc.name === geo.properties.name && sc.tries === 2
-                );
-                const isWrong = selectedCountries.some(
-                  (sc) => sc.name === geo.properties.name && sc.tries > 2
-                );
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    onClick={(e) =>
-                      handleSelectCountry(geo.properties.name, {
-                        x: e.clientX,
-                        y: e.clientY,
-                      })
-                    }
-                    style={{
-                      default: {
-                        fill: gotOnFirstTry
-                          ? '#ffffff'
-                          : gotOnSecondTry
-                            ? '#caad04'
-                            : gotOnThirdTry
-                              ? 'orange'
-                              : isWrong
-                                ? '#bf4140'
-                                : '#166c38',
-                        outline: 'none',
-                        stroke: '#c4c2c2',
-                        strokeWidth: 0.3,
-                      },
-                      hover: {
-                        fill: gotOnFirstTry
-                          ? '#ffffff'
-                          : gotOnSecondTry
-                            ? '#caad04'
-                            : gotOnThirdTry
-                              ? 'orange'
-                              : isWrong
-                                ? '#bf4140'
-                                : '#F53',
-                        outline: 'none',
-                      },
-                    }}
-                  />
-                );
-              })
-            }
-          </Geographies>
-        </ZoomableGroup>
-      </ComposableMap>
+  return (
+    <>
+      {countryNames ? (
+        <div className='h-full w-full flex flex-col justify-center items-center'>
+          <ComposableMap
+            projection='geoMercator'
+            className='flex self-center h-screen border w-full bg-[#a4d1dc]'
+          >
+            <ZoomableGroup center={center} zoom={zoom} maxZoom={20} max={1}>
+              <Geographies geography={`/${geography}.json`}>
+                {({ geographies }) =>
+                  geographies.map((geo) => {
+                    const gotOnFirstTry = selectedCountries.some(
+                      (sc) => sc.name === geo.properties.name && sc.tries === 0
+                    );
+                    const gotOnSecondTry = selectedCountries.some(
+                      (sc) => sc.name === geo.properties.name && sc.tries === 1
+                    );
+                    const gotOnThirdTry = selectedCountries.some(
+                      (sc) => sc.name === geo.properties.name && sc.tries === 2
+                    );
+                    const isWrong = selectedCountries.some(
+                      (sc) => sc.name === geo.properties.name && sc.tries > 2
+                    );
+                    return (
+                      <Geography
+                        key={geo.rsmKey}
+                        geography={geo}
+                        onClick={(e) =>
+                          handleSelectCountry(geo.properties.name, {
+                            x: e.clientX,
+                            y: e.clientY,
+                          })
+                        }
+                        style={{
+                          default: {
+                            fill: gotOnFirstTry
+                              ? '#ffffff'
+                              : gotOnSecondTry
+                                ? '#caad04'
+                                : gotOnThirdTry
+                                  ? 'orange'
+                                  : isWrong
+                                    ? '#bf4140'
+                                    : '#166c38',
+                            outline: 'none',
+                            stroke: '#c4c2c2',
+                            strokeWidth: 0.3,
+                          },
+                          hover: {
+                            fill: gotOnFirstTry
+                              ? '#ffffff'
+                              : gotOnSecondTry
+                                ? '#caad04'
+                                : gotOnThirdTry
+                                  ? 'orange'
+                                  : isWrong
+                                    ? '#bf4140'
+                                    : '#F53',
+                            outline: 'none',
+                          },
+                        }}
+                      />
+                    );
+                  })
+                }
+              </Geographies>
+            </ZoomableGroup>
+          </ComposableMap>
+          <NewGameDialog
+            max={max}
+            setMax={setMax}
+            open={startTime === undefined}
+            onClose={() => {
+              setStartTime(new Date());
+              setResultOpen(false);
+              setSelectedCountries([]);
+              setCurrentTries(0);
+            }}
+          />
+          <ResultDialog
+            result={calculateAccuracy}
+            open={resultOpen}
+            onClose={() => {
+              setResultOpen(false);
+              setSelectedCountries([]);
+              setCurrentTries(0);
+            }}
+          />
+        </div>
+      ) : (
+        <PageNotFound loadingMode />
+      )}
       <div className='p-4 rounded-md fixed bottom-4 right-4 shadow-md bg-white space-y-1 justify-center items-center'>
         <img src={currentCountry?.flag} className='w-10 lg:w-40 mx-auto' />
         <div>
@@ -243,29 +269,7 @@ const Map: React.FC<mapProps> = ({
           Result
         </Button>
       </div>
-      <NewGameDialog
-        max={max}
-        setMax={setMax}
-        open={startTime === undefined}
-        onClose={() => {
-          setStartTime(new Date());
-          setResultOpen(false);
-          setSelectedCountries([]);
-          setCurrentTries(0);
-        }}
-      />
-      <ResultDialog
-        result={calculateAccuracy}
-        open={resultOpen}
-        onClose={() => {
-          setResultOpen(false);
-          setSelectedCountries([]);
-          setCurrentTries(0);
-        }}
-      />
-    </div>
-  ) : (
-    <PageNotFound loadingMode />
+    </>
   );
 };
 
