@@ -1,4 +1,4 @@
-import PageNotFound from '@/components/common/PageNotFound';
+import Map from '@/components/map/world/Map';
 import { createLazyFileRoute } from '@tanstack/react-router';
 
 export const Route = createLazyFileRoute('/map/south-america/')({
@@ -6,5 +6,5 @@ export const Route = createLazyFileRoute('/map/south-america/')({
 });
 
 function RouteComponent() {
-  return <PageNotFound gameMode />;
+  return <Map geography='samerica' center={[-50, -25]} zoom={2.6} />;
 }

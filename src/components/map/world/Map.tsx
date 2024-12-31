@@ -1,4 +1,3 @@
-import { countryNames } from '@/lib/utils';
 import { useEffect, useMemo, useState } from 'react';
 import {
   ComposableMap,
@@ -7,19 +6,38 @@ import {
   ZoomableGroup,
 } from 'react-simple-maps';
 import { NewGameDialog, ResultDialog } from '../../factory/Dialog';
-import { flags } from '@/lib/map/constants';
 import { Button } from '../../ui/button';
 import { ChevronRight, Home, RotateCcw } from 'lucide-react';
 import { ToolTip } from '../../factory/Tooltip';
 import confetti from 'canvas-confetti';
 import { Link } from '@tanstack/react-router';
 import NewGameNav from '@/components/common/NewGameNav';
-
-export default function Map() {
+import { useFetchCountryNames, useFetchFlags } from '@/hooks/query.hooks';
+type mapProps = {
+  initMax?: number;
+  center?: [number, number];
+  geography?:
+    | 'world'
+    | 'europe'
+    | 'namerica'
+    | 'samerica'
+    | 'africa'
+    | 'asia'
+    | 'oceania';
+  zoom: number;
+};
+const Map: React.FC<mapProps> = ({
+  center = [10, 40],
+  geography = 'world',
+  initMax = 20,
+  zoom = 1,
+}) => {
+  const { data: countryNames, isFetched } = useFetchCountryNames(geography);
+  const { data: flags, isFetched: flagsFetched } = useFetchFlags();
   const [startTime, setStartTime] = useState<Date | undefined>(new Date());
   const [currentTries, setCurrentTries] = useState<number>(0);
   const [resultOpen, setResultOpen] = useState(false);
-  const [max, setMax] = useState<number>(20);
+  const [max, setMax] = useState<number>(initMax);
   const [selectedCountries, setSelectedCountries] = useState<
     {
       name?: string;
@@ -31,27 +49,25 @@ export default function Map() {
     flag?: string;
   } | null = useMemo(() => {
     // Filter the countries that are not in selectedCountries
-    const availableCountries = countryNames.filter(
+    const availableCountries = countryNames?.filter(
       (c) => !selectedCountries?.some((sc) => sc.name === c)
     );
 
     // Randomly select a country from the filtered list
-    if (availableCountries.length > 0) {
-      const randomIndex = Math.floor(Math.random() * availableCountries.length);
-      const randomCountry = availableCountries[randomIndex];
-      const flag = flags.find((c) =>
-        c.name
-          .toLowerCase()
-          .includes(
-            randomCountry?.toLowerCase().replace(' ', '').replace('.', '')
-          )
-      )?.image;
-      return { name: randomCountry, flag };
+    if (Number(availableCountries?.length || 0) > 0) {
+      const randomIndex = Math.floor(
+        Math.random() * Number(availableCountries?.length || 0)
+      );
+      const randomCountry = availableCountries
+        ? availableCountries[randomIndex]
+        : null;
+      const flag = flags?.find((f) => f.name === randomCountry)?.image;
+      return randomCountry ? { name: randomCountry, flag } : null;
     }
 
     // Return null or a default value if no countries are available
     return null;
-  }, [selectedCountries]);
+  }, [selectedCountries, isFetched, flagsFetched]);
   const handleSelectCountry = (
     name: string,
     coordinates: {
@@ -111,19 +127,18 @@ export default function Map() {
     return accuracy;
   }, [selectedCountries]);
   useEffect(() => {
-    console.log('Countries: ', selectedCountries);
     if (selectedCountries.length === max) {
       setResultOpen(true);
     }
   }, [selectedCountries]);
-  return (
+  return countryNames ? (
     <div className='h-full w-full flex flex-col justify-center items-center'>
       <ComposableMap
         projection='geoMercator'
         className='flex self-center h-screen border w-full bg-[#a4d1dc]'
       >
-        <ZoomableGroup center={[0, 0]} zoom={1} maxZoom={20}>
-          <Geographies geography='/features.json'>
+        <ZoomableGroup center={center} zoom={zoom} maxZoom={20} max={1}>
+          <Geographies geography={`/${geography}.json`}>
             {({ geographies }) =>
               geographies.map((geo) => {
                 const gotOnFirstTry = selectedCountries.some(
@@ -183,7 +198,7 @@ export default function Map() {
           </Geographies>
         </ZoomableGroup>
       </ComposableMap>
-      <div className='p-4 rounded-md fixed top-4 right-4 shadow-md bg-white space-y-1 justify-center items-center'>
+      <div className='p-4 rounded-md fixed bottom-4 right-4 shadow-md bg-white space-y-1 justify-center items-center'>
         <img src={currentCountry?.flag} className='w-10 lg:w-40 mx-auto' />
         <div>
           <p className='lg:text-2xl text-base font-semibold text-center mb-3'>
@@ -245,5 +260,7 @@ export default function Map() {
         }}
       />
     </div>
-  );
-}
+  ) : null;
+};
+
+export default Map;
