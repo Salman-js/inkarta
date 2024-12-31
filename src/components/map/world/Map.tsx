@@ -24,7 +24,7 @@ type mapProps = {
     | 'africa'
     | 'asia'
     | 'oceania';
-  zoom: number;
+  zoom?: number;
 };
 const Map: React.FC<mapProps> = ({
   center = [10, 40],
